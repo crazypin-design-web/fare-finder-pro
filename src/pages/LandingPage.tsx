@@ -1,24 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { ArrowRight, BellRing, Eye, RotateCcw } from "lucide-react";
 
 import heroImage from "@/assets/flight-routes-hero.jpg";
 import { BrandMark } from "@/components/BrandMark";
 import { Button } from "@/components/ui/button";
 import { useAuthUser } from "@/hooks/useAuthUser";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Target Flight Price Notifier — 機票降價通知" },
-      { name: "description", content: "只要設定航線與目標價，達標馬上通知你。追蹤台北出發的熱門航線，低於預算立即收到 email。" },
-      { property: "og:title", content: "Target Flight Price Notifier — 機票降價通知" },
-      { property: "og:description", content: "只要設定航線與目標價，達標馬上通知你。" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: LandingPage,
-});
+import { usePageMeta } from "@/hooks/usePageMeta";
 
 const features = [
   {
@@ -41,8 +28,14 @@ const features = [
   },
 ];
 
-function LandingPage() {
+export function LandingPage() {
   const { user } = useAuthUser();
+
+  usePageMeta({
+    title: "Target Flight Price Notifier — 機票降價通知",
+    description:
+      "只要設定航線與目標價，達標馬上通知你。追蹤台北出發的熱門航線，低於預算立即收到 email。",
+  });
 
   return (
     <main className="min-h-screen overflow-hidden bg-background">
@@ -59,17 +52,25 @@ function LandingPage() {
         <header className="relative z-10 mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
           <BrandMark />
           <Button asChild variant="outline">
-            <Link to={user ? "/app" : "/sign-in"}>{user ? "Dashboard / 儀表板" : "Sign in / 登入"}</Link>
+            <Link to={user ? "/app" : "/sign-in"}>
+              {user ? "Dashboard / 儀表板" : "Sign in / 登入"}
+            </Link>
           </Button>
         </header>
 
         <div className="relative z-10 mx-auto flex min-h-[calc(78svh-5rem)] max-w-7xl items-center px-5 pb-16 pt-8 sm:px-8">
           <div className="max-w-4xl animate-rise">
-            <p className="mb-5 text-sm font-semibold uppercase text-violet-soft">機票降價通知 · From Taipei to the world</p>
+            <p className="mb-5 text-sm font-semibold uppercase text-violet-soft">
+              機票降價通知 · From Taipei to the world
+            </p>
             <h1 className="max-w-4xl text-5xl font-extrabold leading-[1.04] text-foreground sm:text-6xl lg:text-8xl">
-              Target Flight<br />Price Notifier
+              Target Flight
+              <br />
+              Price Notifier
             </h1>
-            <p className="mt-7 text-xl font-semibold text-foreground sm:text-2xl">只要設定航線與目標價，達標馬上通知你</p>
+            <p className="mt-7 text-xl font-semibold text-foreground sm:text-2xl">
+              只要設定航線與目標價，達標馬上通知你
+            </p>
             <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
               Once set a route and a target price — we email you when the fare drops.
             </p>
@@ -80,7 +81,9 @@ function LandingPage() {
                   <ArrowRight aria-hidden="true" />
                 </Link>
               </Button>
-              <span className="text-sm text-muted-foreground">Tokyo · Seoul · More routes soon</span>
+              <span className="text-sm text-muted-foreground">
+                Tokyo · Seoul · More routes soon
+              </span>
             </div>
           </div>
         </div>
@@ -95,7 +98,10 @@ function LandingPage() {
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <article key={feature.title} className="bg-card p-7 transition-colors hover:bg-surface-strong sm:p-9">
+              <article
+                key={feature.title}
+                className="bg-card p-7 transition-colors hover:bg-surface-strong sm:p-9"
+              >
                 <div className="flex items-center justify-between">
                   <span className="grid size-11 place-items-center rounded-md bg-primary/15 text-primary">
                     <Icon aria-hidden="true" className="size-5" />
